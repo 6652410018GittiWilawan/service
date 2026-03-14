@@ -11,10 +11,21 @@ $connDB = new ConnectDB();
 $kitti_018 = new Kitti_018($connDB->getConnectDB());
 
 $data = json_decode(file_get_contents("php://input"));
+$result = $kitti_018->deleteTaskByID($data->id);
+if ($result == true) {
+  $dataInfo = array();
+  $dataArray = array(
+    "msgresult" => "1"
+  );
 
-$result = $kitti_018->updateTaskByID(
-    $data->id,
-    $data->taskName,
-    $data->taskDetail,
-    $data->taskStatus,
-);
+  array_push($dataInfo, $dataArray);
+  echo json_encode($dataInfo);
+} else {
+  $dataInfo = array();
+  $dataArray = array(
+    "msgresult" => "0"
+  );
+
+  array_push($dataInfo, $dataArray);
+  echo json_encode($dataInfo);
+}
